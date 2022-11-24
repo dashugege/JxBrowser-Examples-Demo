@@ -8,6 +8,7 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.examples.seo.ua.UA;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution.WidthHeiht;
+import com.teamdev.jxbrowser.frame.Frame;
 import com.teamdev.jxbrowser.navigation.Navigation;
 import com.teamdev.jxbrowser.navigation.event.FrameLoadFinished;
 import com.teamdev.jxbrowser.net.proxy.CustomProxyConfig;
@@ -28,6 +29,7 @@ public class Main {
 //    http://xuanyimao.com/doc/jxbrowser/helpdoc/jxbrowser/jxbrowser.support.teamdev.com/support/solutions.html
 //-Djxbrowser.license.key=1BNDHFSC1G4LIPLNPLSPU2YBP8A9F3QVD5V96HLMALKE5GOYRQAKYPP5REF09PM3LJJK58
     static boolean searchClick = false;
+    static boolean targetClick = false;
 
     static int flag = 1;
 
@@ -41,6 +43,7 @@ public class Main {
 
         //init
         searchClick = false;
+        targetClick = false;
         flag = 1;
 
         Engine engine = Engine.newInstance(EngineOptions.newBuilder(OFF_SCREEN)
@@ -90,6 +93,10 @@ public class Main {
 
         );
 
+        browser.mainFrame().ifPresent(frame->{
+
+        });
+
         Navigation navigation = browser.navigation();
         navigation.loadUrl(url);
 
@@ -127,10 +134,21 @@ public class Main {
     public static void secondStep(Element element) {
         // 搜索包含seo网址的元素
         try {
-            element.findElementsByClassName("result c-container xpath-log new-pmd").stream().forEach( item ->{
-                if(item.textContent().contains("2dyt")){
-                    System.out.println("========click========");
-                    item.click();
+            element.findElementsByClassName("c-title t t tts-title").stream().forEach( item ->{
+
+//                if(item.textContent().contains("2dyt")){
+                if(item.textContent().contains("在线ASCII编码汉字互转")){
+                    boolean isClick = false;
+                    item.children().forEach(childItem->{
+                        childItem.children().forEach(subchildItem ->{
+                            System.out.println(subchildItem.nodeName() + "  " + subchildItem.nodeValue());
+                            if(!targetClick){
+                                targetClick = true;
+                                subchildItem.click();
+                            }
+                        });
+
+                    });
                 }
             });
         } catch (Exception e) {
@@ -138,5 +156,10 @@ public class Main {
         }
     }
 
+
+
+    public static void scrollerPage(Frame frame){
+        frame.executeJavaScript("window.scrollTo(document.body.scrollWidth, " + "document.body.scrollHeight);");
+    }
 
 }
