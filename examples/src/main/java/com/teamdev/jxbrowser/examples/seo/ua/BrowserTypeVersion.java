@@ -23,9 +23,9 @@ package com.teamdev.jxbrowser.examples.seo.ua;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChromeVersion {
+public class BrowserTypeVersion {
 //    https://gongjux.com/userAgentGenerator/
-    public List<String> uaList = Arrays.asList(
+    public List<String> chromrUaList = Arrays.asList(
             "109.0.5396.2",
             "109.0.5384.2",
             "108.0.5359.48",
