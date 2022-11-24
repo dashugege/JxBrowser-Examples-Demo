@@ -1,6 +1,8 @@
 package com.teamdev.jxbrowser.examples.seo;
 
 import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.browser.callback.CreatePopupCallback;
+import com.teamdev.jxbrowser.browser.callback.CreatePopupCallback.Response;
 import com.teamdev.jxbrowser.dom.Document;
 import com.teamdev.jxbrowser.dom.Element;
 import com.teamdev.jxbrowser.engine.Engine;
@@ -33,8 +35,8 @@ public class Main {
 
     static int flag = 1;
 
-    static String ip = "89.38.98.236";
-    static String port = "80";
+    static String ip = "112.6.117.178";
+    static String port = "8085";
     static String url = "https://www.baidu.com/";
     static String search_keyword = "汉子转ascii";
 
@@ -55,9 +57,9 @@ public class Main {
         //代理 暂时不用
         Profile profile = engine.proxy().profile();
         Proxy proxy = profile.proxy();
-        String proxyRules = "http=" + ip + ":" + port + ";https=foo:80;ftp=foo:80;socks=foo:80";
+        String proxyRules = "http=" + ip + ":" + port + ";http=" + ip + ":" + port ; //";ftp=" + ip + ":" + port + ";socks=" + ip + ":" + port ;
         String exceptions = "<local>";  // bypass proxy server for local web pages
-//        proxy.config(CustomProxyConfig.newInstance(proxyRules, exceptions));
+        proxy.config(CustomProxyConfig.newInstance(proxyRules, exceptions));
 
         WidthHeiht widthHeiht = EnglishResolution.getEnglishResolution(1);
 
@@ -97,6 +99,11 @@ public class Main {
 
         });
 
+        browser.set(CreatePopupCallback.class, params -> {
+            browser.navigation().loadUrl(params.targetUrl());
+            return Response.suppress();
+        });
+
         Navigation navigation = browser.navigation();
         navigation.loadUrl(url);
 
@@ -134,23 +141,36 @@ public class Main {
     public static void secondStep(Element element) {
         // 搜索包含seo网址的元素
         try {
-            element.findElementsByClassName("c-title t t tts-title").stream().forEach( item ->{
+            element.findElementsByClassName("siteLink_9TPP3").forEach(item->{
+                if(item.textContent().contains("2dyt")){
+                    item.attributeNodes().forEach(attribute -> {
+                        if("href".equals(attribute.nodeName())){
+                            item.click();
+                            System.out.println(attribute.nodeValue());
+                        }
+                    });
+                }
 
-//                if(item.textContent().contains("2dyt")){
-                if(item.textContent().contains("在线ASCII编码汉字互转")){
+            });
+
+            //方式一
+            /**
+            element.findElementsByClassName("c-title t t tts-title").stream().forEach( item ->{
+                if(item.textContent().contains("2dyt")){
+//                if(item.textContent().contains("在线ASCII编码汉字互转")){
                     boolean isClick = false;
                     item.children().forEach(childItem->{
                         childItem.children().forEach(subchildItem ->{
-                            System.out.println(subchildItem.nodeName() + "  " + subchildItem.nodeValue());
                             if(!targetClick){
                                 targetClick = true;
                                 subchildItem.click();
+                                System.out.println(subchildItem.nodeName() + " -- "+subchildItem.nodeValue());
                             }
                         });
-
                     });
                 }
             });
+             **/
         } catch (Exception e) {
             e.printStackTrace();
         }
