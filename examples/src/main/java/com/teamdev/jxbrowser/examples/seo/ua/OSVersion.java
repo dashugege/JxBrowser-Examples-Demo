@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OSVersion {
-    public List<String> macOsVersion = Arrays.asList(
+    public static List<String> macOsVersion = Arrays.asList(
             "Macintosh; Intel Mac OS X 10_15_7",
             "Macintosh; Intel Mac OS X 10_15_6",
             "Macintosh; Intel Mac OS X 10_15_5",
@@ -81,7 +81,7 @@ public class OSVersion {
             "Macintosh; Intel Mac OS X 10_8_0"
             );
 
-    public List<String> windowsOsVersion = Arrays.asList(
+    public static List<String> windowsOsVersion = Arrays.asList(
             "Windows NT 10.0; Win64; x64",
             "Windows NT 10.0",
             "Windows NT 6.3; Win64; x64",

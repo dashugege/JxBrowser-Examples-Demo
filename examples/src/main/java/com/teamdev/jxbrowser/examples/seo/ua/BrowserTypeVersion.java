@@ -25,7 +25,7 @@ import java.util.List;
 
 public class BrowserTypeVersion {
 //    https://gongjux.com/userAgentGenerator/
-    public List<String> chromeUaList = Arrays.asList(
+    public static List<String> chromeUaList = Arrays.asList(
             "109.0.5396.2",
             "109.0.5384.2",
             "108.0.5359.48",

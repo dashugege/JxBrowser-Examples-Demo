@@ -1,5 +1,7 @@
 package com.teamdev.jxbrowser.examples.seo;
 
+import com.teamdev.jxbrowser.engine.Engine;
+
 //https://github.com/jiangxianli/ProxyIpLib#免费代理ip库
 public class IPProxy {
     public static IPProxy INSTANCE = null;
@@ -15,11 +17,6 @@ public class IPProxy {
         System.getProperties().setProperty("http.proxyHost",ip);
         System.getProperties().setProperty("http.proxyPort",port);
     }
-
-
-
-
-
 
 
 
