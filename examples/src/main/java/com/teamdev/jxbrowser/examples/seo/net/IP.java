@@ -48,4 +48,26 @@ public class IP {
         }
     }
 
+
+
+    public void getArrayIp(IpArrayListener listener){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://ip.jiangxianli.com/api/proxy_ips")
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            String result = response.body().string();
+            Gson gson = new Gson();
+            ArrayIpJsonBean jsonBean = gson.fromJson(result, ArrayIpJsonBean.class);
+            if(jsonBean != null&& jsonBean.getCode() == 0 ){
+                listener.success(jsonBean.getData().getData());
+            }else {
+                listener.error();
+            }
+        } catch (Exception e) {
+            listener.error();
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -23,13 +23,9 @@ package com.teamdev.jxbrowser.examples;
 import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
 
 import com.teamdev.jxbrowser.browser.Browser;
-import com.teamdev.jxbrowser.dom.Document;
-import com.teamdev.jxbrowser.dom.XPathException;
-import com.teamdev.jxbrowser.dom.XPathResult;
 import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.examples.seo.IPProxy;
+import com.teamdev.jxbrowser.examples.seo.net.IPProxy;
 import com.teamdev.jxbrowser.navigation.Navigation;
-import com.teamdev.jxbrowser.navigation.event.FrameLoadFinished;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;

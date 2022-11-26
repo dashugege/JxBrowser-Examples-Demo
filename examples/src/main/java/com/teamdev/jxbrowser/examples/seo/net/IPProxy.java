@@ -18,37 +18,23 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.seo;
+package com.teamdev.jxbrowser.examples.seo.net;
 
-
-import com.teamdev.jxbrowser.dom.Element;
-import com.teamdev.jxbrowser.examples.seo.engine.FrameLoadFinishedListener;
-import com.teamdev.jxbrowser.examples.seo.engine.IBrowser;
-import com.teamdev.jxbrowser.examples.seo.engine.ProxyUtils;
-import com.teamdev.jxbrowser.examples.seo.net.ArrayIpJsonBean.DataDTO.IDataDTO;
-import com.teamdev.jxbrowser.examples.seo.net.IP;
-import com.teamdev.jxbrowser.examples.seo.net.IpArrayListener;
-import com.teamdev.jxbrowser.examples.seo.net.IpListener;
-import java.util.List;
-
-public class TestMain {
-
-    public static String search_keyword = "汉字转ascii";
-    public static String url = "https://www.baidu.com";
-
-    public static void main(String[]args){
-        // 单ip
-//
-//        ImplementSeoProcess seoProcess = new ImplementSeoProcess();
-//        seoProcess.getSingleIp();
-
-
-
-        // 多ip
-//        ImplementSeoProcess mutliSeoProcess = new ImplementSeoProcess();
-//        mutliSeoProcess.getMultipleIp();
+//https://github.com/jiangxianli/ProxyIpLib#免费代理ip库
+public class IPProxy {
+    public static IPProxy INSTANCE = null;
+    private IPProxy(){}
+    public static IPProxy getInstance(){
+        if(INSTANCE == null){
+            INSTANCE = new IPProxy();
+        }
+        return INSTANCE;
     }
 
+    public void setProxyIp(String ip,String port){
+        System.getProperties().setProperty("http.proxyHost",ip);
+        System.getProperties().setProperty("http.proxyPort",port);
+    }
 
 
 

@@ -46,6 +46,10 @@ public class IBrowser {
     public int flag = 0;
 
 
+    public boolean firstClick = false;
+    public boolean secondClick = false;
+
+
     public synchronized Browser getBrowser( ) {
         String ua = UserAgentGenerate.genetateUa();
         engine = Engine.newInstance(EngineOptions.newBuilder(OFF_SCREEN)

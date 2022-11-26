@@ -24,20 +24,17 @@ import com.teamdev.jxbrowser.dom.Element;
 import com.teamdev.jxbrowser.examples.seo.engine.FrameLoadFinishedListener;
 import com.teamdev.jxbrowser.examples.seo.engine.IBrowser;
 import com.teamdev.jxbrowser.examples.seo.engine.ProxyUtils;
+import com.teamdev.jxbrowser.examples.seo.net.ArrayIpJsonBean.DataDTO.IDataDTO;
 import com.teamdev.jxbrowser.examples.seo.net.IP;
+import com.teamdev.jxbrowser.examples.seo.net.IpArrayListener;
 import com.teamdev.jxbrowser.examples.seo.net.IpListener;
 import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
 import com.teamdev.jxbrowser.examples.seo.utisl.TimeUtils;
-import java.util.Random;
+import java.util.List;
 
 public class ImplementSeoProcess {
 
-    /**
-     * 0  初始化
-     * 1 点击搜索按钮
-     */
-    int state = 0;
-    boolean searchClick = false;
+
 
     IBrowser iBrowser = null;
 
@@ -48,14 +45,16 @@ public class ImplementSeoProcess {
         iBrowser.getBrowser();
     }
 
-    public void getIp(){
+    public void getSingleIp(){
         IP ip = new IP();
         ip.getIp(new IpListener() {
             @Override
             public void success(String ip, String port) {
                 System.out.println("ip " + ip + " port " + port);
+                createBrowser();
+
                 ProxyUtils.getInstance().setProxy(iBrowser.engine,ip,port);
-                setListener(state);
+                setListener(0);
 
                 iBrowser.createJFrame(iBrowser.browser);
 
@@ -70,6 +69,30 @@ public class ImplementSeoProcess {
         });
     }
 
+
+    public void getMultipleIp(){
+        IP ip = new IP();
+        ip.getArrayIp(new IpArrayListener() {
+            @Override
+            public void success(List<IDataDTO> list) {
+                list.forEach( item ->{
+                    createBrowser();
+                    ProxyUtils.getInstance().setProxy(iBrowser.engine,item.getIp(),item.getPort());
+                    setListener(0);
+
+                    iBrowser.createJFrame(iBrowser.browser);
+
+
+                    iBrowser.loadUrl(iBrowser.browser,TestMain.url);
+                });
+            }
+
+            @Override
+            public void error() {
+
+            }
+        });
+    }
 
 
     public void setListener(int flag){
@@ -107,16 +130,15 @@ public class ImplementSeoProcess {
         }
         PrintUtils.print(" 点击搜索按钮 ");
         element.findElementById("su").ifPresent(item -> {
-            if (searchClick) {
+            if (iBrowser.firstClick) {
                 return;
             }
-            searchClick = true;
+            iBrowser.firstClick = true;
             try {
                 Thread.sleep(TimeUtils.getRandomTime(true));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }finally {
-                state = 1;
                 iBrowser.setFlag(1);
                 item.click();
             }
@@ -128,11 +150,14 @@ public class ImplementSeoProcess {
         try {
             element.findElementsByClassName("siteLink_9TPP3").forEach(item->{
                 if(item.textContent().contains("2dyt")){
+                    if(iBrowser.secondClick){
+                        return;
+                    }
+                    iBrowser.secondClick = true;
                     item.attributeNodes().forEach(attribute -> {
                         if("href".equals(attribute.nodeName())){
                             PrintUtils.print("点击搜索链接"+attribute.nodeValue());
                             item.click();
-//                            iBrowser.loadUrl(iBrowser.getBrowser(), attribute.nodeValue());
                         }
                     });
                 }
