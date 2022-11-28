@@ -19,6 +19,21 @@ public class EnglishResolution {
       pcWidthHeight.add(new WidthHeiht(1680,1050));
       pcWidthHeight.add(new WidthHeiht(1920,1080));
       pcWidthHeight.add(new WidthHeiht(1280,1024));
+      pcWidthHeight.add(new WidthHeiht(1280,720));
+      pcWidthHeight.add(new WidthHeiht(2560,1440));
+      pcWidthHeight.add(new WidthHeiht(1366,768));
+      pcWidthHeight.add(new WidthHeiht(1600,1200));
+
+
+      pcWidthHeight.add(new WidthHeiht(1680,1050));
+      pcWidthHeight.add(new WidthHeiht(1920,1200));
+
+      pcWidthHeight.add(new WidthHeiht(1600,900));
+
+      pcWidthHeight.add(new WidthHeiht(1024,768));
+      pcWidthHeight.add(new WidthHeiht(1680,1050));
+      pcWidthHeight.add(new WidthHeiht(1280,800));
+
 
       mobileWidthHeight= new ArrayList<>();
       mobileWidthHeight.add(new WidthHeiht(414,736));
