@@ -43,14 +43,15 @@ public class ImplementSeoProcess {
 
     IBrowser iBrowser = null;
 
-
+    ExecutionCompletedListener completedListener = null;
 
     public void createBrowser(){
         iBrowser = new IBrowser();
         iBrowser.getBrowser();
     }
 
-    public void getSingleIp(){
+    public void getSingleIp(ExecutionCompletedListener completedListener){
+        this.completedListener = completedListener;
         IP ip = new IP();
         ip.getIp(new IpListener() {
             @Override
@@ -174,6 +175,16 @@ public class ImplementSeoProcess {
                             PrintUtils.print("点击搜索链接"+attribute.nodeName());
                             PrintUtils.print("点击搜索链接"+attribute.nodeValue());
                             item.click();
+
+                            try {
+                                Thread.sleep(TimeUtils.getRandomTime(true));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(completedListener != null){
+                                completedListener.completed();
+                            }
+                            iBrowser.engine.close();
                         }
                     });
                 }else {
