@@ -49,6 +49,10 @@ public class IBrowser {
     public boolean firstClick = false;
     public boolean secondClick = false;
 
+    public boolean isFind = false;
+
+
+    public int page = 1;
 
     public synchronized Browser getBrowser( ) {
         String ua = UserAgentGenerate.genetateUa();

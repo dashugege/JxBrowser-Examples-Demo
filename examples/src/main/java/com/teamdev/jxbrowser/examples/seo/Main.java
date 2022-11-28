@@ -142,7 +142,7 @@ public class Main {
         // 搜索包含seo网址的元素
         try {
             element.findElementsByClassName("siteLink_9TPP3").forEach(item->{
-                if(item.textContent().contains("2dyt")){
+                if(item.textContent().contains("在线ASCII编码汉字互转")){
                     item.attributeNodes().forEach(attribute -> {
                         if("href".equals(attribute.nodeName())){
                             item.click();

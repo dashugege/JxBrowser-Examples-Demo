@@ -33,14 +33,14 @@ import java.util.List;
 
 public class TestMain {
 
-    public static String search_keyword = "汉字转ascii";
+    public static String search_keyword = "json在线格式化";
     public static String url = "https://www.baidu.com";
 
     public static void main(String[]args){
         // 单ip
 //
-//        ImplementSeoProcess seoProcess = new ImplementSeoProcess();
-//        seoProcess.getSingleIp();
+        ImplementSeoProcess seoProcess = new ImplementSeoProcess();
+        seoProcess.getSingleIp();
 
 
 

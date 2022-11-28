@@ -27,11 +27,11 @@ public class TimeUtils {
 
     public static int getRandomTime(Boolean max) {
         if (max) {
-            int time = new Random().nextInt(10000) + 2000;
+            int time = new Random().nextInt(5000) + 2000;
             PrintUtils.print("等待 " + time);
             return time;
         } else {
-            int time = new Random().nextInt(5000) + 2000;
+            int time = new Random().nextInt(2000) + 2000;
             PrintUtils.print("等待 " + time);
             return time;
         }

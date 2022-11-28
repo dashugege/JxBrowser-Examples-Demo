@@ -20,7 +20,10 @@
 
 package com.teamdev.jxbrowser.examples.seo;
 
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+
 import com.teamdev.jxbrowser.dom.Element;
+import com.teamdev.jxbrowser.dom.Node;
 import com.teamdev.jxbrowser.examples.seo.engine.FrameLoadFinishedListener;
 import com.teamdev.jxbrowser.examples.seo.engine.IBrowser;
 import com.teamdev.jxbrowser.examples.seo.engine.ProxyUtils;
@@ -30,7 +33,9 @@ import com.teamdev.jxbrowser.examples.seo.net.IpArrayListener;
 import com.teamdev.jxbrowser.examples.seo.net.IpListener;
 import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
 import com.teamdev.jxbrowser.examples.seo.utisl.TimeUtils;
+import com.teamdev.jxbrowser.frame.Frame;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class ImplementSeoProcess {
 
@@ -51,14 +56,19 @@ public class ImplementSeoProcess {
             @Override
             public void success(String ip, String port) {
                 System.out.println("ip " + ip + " port " + port);
+
+
                 createBrowser();
 
                 ProxyUtils.getInstance().setProxy(iBrowser.engine,ip,port);
+
+                iBrowser.browser.mainFrame().ifPresent(frame->{
+                    if(frame.isMain()){
+                    }
+                });
+
                 setListener(0);
-
                 iBrowser.createJFrame(iBrowser.browser);
-
-
                 iBrowser.loadUrl(iBrowser.browser,TestMain.url);
             }
 
@@ -81,6 +91,7 @@ public class ImplementSeoProcess {
                     setListener(0);
 
                     iBrowser.createJFrame(iBrowser.browser);
+
 
 
                     iBrowser.loadUrl(iBrowser.browser,TestMain.url);
@@ -148,7 +159,9 @@ public class ImplementSeoProcess {
     public  void secondStep(Element element) {
         // 搜索包含seo网址的元素
         try {
-            element.findElementsByClassName("siteLink_9TPP3").forEach(item->{
+            List<Element> elementList =  element.findElementsByClassName("siteLink_9TPP3");
+            elementList.forEach(item->{
+                int index = elementList.indexOf(item);
                 if(item.textContent().contains("2dyt")){
                     if(iBrowser.secondClick){
                         return;
@@ -156,17 +169,60 @@ public class ImplementSeoProcess {
                     iBrowser.secondClick = true;
                     item.attributeNodes().forEach(attribute -> {
                         if("href".equals(attribute.nodeName())){
+                            iBrowser.isFind = true;
+                            PrintUtils.print("点击搜索链接"+attribute.nodeName());
                             PrintUtils.print("点击搜索链接"+attribute.nodeValue());
                             item.click();
                         }
                     });
+                }else {
+                    if(index == elementList.size()-1){
+                        if(!iBrowser.isFind){
+                            PrintUtils.print(" ==== 准备翻页========= ");
+                            findNext(element);
+                        }
+                    }
                 }
 
             });
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void findNext(Element element){
+        try {
+            Thread.sleep(TimeUtils.getRandomTime(false));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            List<Element> elementList =  element.findElementsByClassName("page-item_M4MDr pc");
+            outer:
+            for(int i=0;i<elementList.size();i++){
+                List<Node> pageListNode =  elementList.get(i).children();
+                for(int j=0;j<pageListNode.size();j++){
+                    try {
+                        if(Integer.valueOf(pageListNode.get(j).nodeValue()) - 1 == iBrowser.page){
+                            PrintUtils.print(" ========翻页========= " + iBrowser.page);
+                            pageListNode.get(j).click();
+                            iBrowser.page++;
+                            findNext(element);
+                            break outer;
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
