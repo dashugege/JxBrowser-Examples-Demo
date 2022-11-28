@@ -66,10 +66,11 @@ public class ImplementSeoProcess {
                     if(frame.isMain()){
                     }
                 });
-
                 setListener(0);
+
                 iBrowser.createJFrame(iBrowser.browser);
                 iBrowser.loadUrl(iBrowser.browser,TestMain.url);
+
             }
 
             @Override
@@ -194,6 +195,18 @@ public class ImplementSeoProcess {
 
 
     public void findNext(Element element){
+        try {
+            Thread.sleep(TimeUtils.getRandomTime(false));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            iBrowser.browser.mainFrame().get().executeJavaScript("window.scrollTo(0,document.body.scrollHeight);");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             Thread.sleep(TimeUtils.getRandomTime(false));
         } catch (InterruptedException e) {
