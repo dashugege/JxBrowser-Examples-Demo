@@ -31,6 +31,7 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.examples.seo.ua.UserAgentGenerate;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution.WidthHeiht;
+import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
 import com.teamdev.jxbrowser.navigation.Navigation;
 import com.teamdev.jxbrowser.navigation.event.FrameLoadFinished;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
@@ -54,8 +55,15 @@ public class IBrowser {
 
     public int page = 1;
 
+    public String ip;
+    public String port;
+    public String searchKeyWords = "";
+    public static String targetUrl = "http://www.baidu.com";
+
+
     public synchronized Browser getBrowser( ) {
         String ua = UserAgentGenerate.genetateUa();
+        PrintUtils.print("UA: " + ua);
         engine = Engine.newInstance(EngineOptions.newBuilder(OFF_SCREEN)
                 .userAgent(ua)
                 .build());
@@ -67,6 +75,7 @@ public class IBrowser {
     public synchronized void createJFrame(Browser tBrowser) {
         SwingUtilities.invokeLater(() -> {
             WidthHeiht widthHeiht = EnglishResolution.getEnglishResolution(1);
+            PrintUtils.print("width : " + widthHeiht.getWidth() + " height : " + widthHeiht.getHeight());
             BrowserView view = BrowserView.newInstance(tBrowser);
             JFrame frame = new JFrame("seo browser");
             frame.getContentPane().add(view, BorderLayout.CENTER);

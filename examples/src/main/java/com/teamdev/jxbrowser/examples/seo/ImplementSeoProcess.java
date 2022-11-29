@@ -50,16 +50,18 @@ public class ImplementSeoProcess {
         iBrowser.getBrowser();
     }
 
-    public void getSingleIp(ExecutionCompletedListener completedListener){
+
+
+    public void getSingleIp(String keyword,ExecutionCompletedListener completedListener){
         this.completedListener = completedListener;
         IP ip = new IP();
         ip.getIp(new IpListener() {
             @Override
             public void success(String ip, String port) {
-                System.out.println("ip " + ip + " port " + port);
-
-
                 createBrowser();
+                iBrowser.ip = ip;
+                iBrowser.port = port;
+                iBrowser.searchKeyWords = keyword;
 
                 ProxyUtils.getInstance().setProxy(iBrowser.engine,ip,port);
 
@@ -70,7 +72,7 @@ public class ImplementSeoProcess {
                 setListener(0);
 
                 iBrowser.createJFrame(iBrowser.browser);
-                iBrowser.loadUrl(iBrowser.browser,TestMain.url);
+                iBrowser.loadUrl(iBrowser.browser,IBrowser.targetUrl);
 
             }
 
@@ -82,35 +84,32 @@ public class ImplementSeoProcess {
     }
 
 
-    public void getMultipleIp(){
-        IP ip = new IP();
-        ip.getArrayIp(new IpArrayListener() {
-            @Override
-            public void success(List<IDataDTO> list) {
-                list.forEach( item ->{
-                    createBrowser();
-                    ProxyUtils.getInstance().setProxy(iBrowser.engine,item.getIp(),item.getPort());
-                    setListener(0);
 
-                    iBrowser.createJFrame(iBrowser.browser);
+    public void getLocalIp(String ip,String port,String keyword,ExecutionCompletedListener completedListener){
+        this.completedListener = completedListener;
+        createBrowser();
+        iBrowser.ip = ip;
+        iBrowser.port = port;
+        iBrowser.searchKeyWords = keyword;
 
+        ProxyUtils.getInstance().setProxy(iBrowser.engine,ip,port);
 
-
-                    iBrowser.loadUrl(iBrowser.browser,TestMain.url);
-                });
-            }
-
-            @Override
-            public void error() {
-
+        iBrowser.browser.mainFrame().ifPresent(frame->{
+            if(frame.isMain()){
             }
         });
+        setListener(0);
+
+        iBrowser.createJFrame(iBrowser.browser);
+        iBrowser.loadUrl(iBrowser.browser,IBrowser.targetUrl);
+
     }
+
 
 
     public void setListener(int flag){
         iBrowser.setFlag(flag);
-        iBrowser.registerListener(iBrowser.getBrowser(),
+        iBrowser.registerListener(iBrowser.browser,
                 new FrameLoadFinishedListener() {
                     @Override
                     public void listenerFlag(int flag, Element element) {
@@ -121,20 +120,16 @@ public class ImplementSeoProcess {
                             if(flag == 1 ){
                                 secondStep(element);
                             }
-
-
-
                     }
                 });
     }
-
 
 
     public void firstStep(Element element,int flag){
         // 输入搜索关键字
         PrintUtils.print(" 输入搜索关键词 ");
         element.findElementById("kw").ifPresent(firstName ->
-                firstName.putAttribute("value", TestMain.search_keyword));
+                firstName.putAttribute("value", iBrowser.searchKeyWords));
         // 模拟点击搜索按钮
         try {
             Thread.sleep(TimeUtils.getRandomTime(true));
@@ -182,9 +177,10 @@ public class ImplementSeoProcess {
                                 e.printStackTrace();
                             }
                             if(completedListener != null){
-                                completedListener.completed();
+                                completedListener.completed(iBrowser.ip,iBrowser.port,iBrowser.searchKeyWords);
                             }
-                            iBrowser.engine.close();
+//                            iBrowser.engine.close();
+//                            iBrowser.browser.close();
                         }
                     });
                 }else {
