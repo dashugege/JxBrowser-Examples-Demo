@@ -18,38 +18,30 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.seo.engine;
+package com.teamdev.jxbrowser.examples.seo.utisl;
 
+import java.util.Arrays;
+import java.util.List;
 
-import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
-import com.teamdev.jxbrowser.net.proxy.CustomProxyConfig;
-import com.teamdev.jxbrowser.net.proxy.Proxy;
-import com.teamdev.jxbrowser.profile.Profile;
+public class IpLists {
+//    https://www.xiaoxiangdaili.com/ip-short/buy
+    private static int index ;
+//    123456qQ
 
-public class ProxyUtils {
+    private static List<IpBean> ipBeanList = Arrays.asList(
+//            new IpBean("223.96.90.216","8085")
+        new IpBean("183.239.62.59","9091")
+//        new IpBean("222.179.155.90","9091"),
+    );
 
-    public static ProxyUtils INSTANCE = null;
-
-    private ProxyUtils(){}
-
-    public static ProxyUtils getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ProxyUtils();
+    public static IpBean getIpBean(){
+        if(index < ipBeanList.size()){
+            IpBean ipBean = ipBeanList.get(index);
+            index++;
+            return ipBean;
+        }else {
+            index = 0;
+            return  ipBeanList.get(0);
         }
-        return  INSTANCE;
     }
-
-
-    public void setProxy(Engine engine,String ip,String port){
-        Profile profile = engine.proxy().profile();
-        Proxy proxy = profile.proxy();
-        String proxyRules = "http=" + ip + ":" + port + ";https=" + ip + ":" + port ;
-        String exceptions = "<local>";
-        proxy.config(CustomProxyConfig.newInstance(proxyRules, exceptions));
-        PrintUtils.print("proxy ip " + ip + " port " + port);
-    }
-
-
-
 }

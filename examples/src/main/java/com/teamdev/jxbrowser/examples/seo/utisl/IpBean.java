@@ -18,38 +18,31 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.seo.engine;
+package com.teamdev.jxbrowser.examples.seo.utisl;
 
+public class IpBean {
 
-import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
-import com.teamdev.jxbrowser.net.proxy.CustomProxyConfig;
-import com.teamdev.jxbrowser.net.proxy.Proxy;
-import com.teamdev.jxbrowser.profile.Profile;
+    public String ip;
+    public String port;
 
-public class ProxyUtils {
-
-    public static ProxyUtils INSTANCE = null;
-
-    private ProxyUtils(){}
-
-    public static ProxyUtils getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ProxyUtils();
-        }
-        return  INSTANCE;
+    public IpBean(String ip, String port) {
+        this.ip = ip;
+        this.port = port;
     }
 
-
-    public void setProxy(Engine engine,String ip,String port){
-        Profile profile = engine.proxy().profile();
-        Proxy proxy = profile.proxy();
-        String proxyRules = "http=" + ip + ":" + port + ";https=" + ip + ":" + port ;
-        String exceptions = "<local>";
-        proxy.config(CustomProxyConfig.newInstance(proxyRules, exceptions));
-        PrintUtils.print("proxy ip " + ip + " port " + port);
+    public String getIp() {
+        return ip;
     }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
+    public String getPort() {
+        return port;
+    }
 
+    public void setPort(String port) {
+        this.port = port;
+    }
 }

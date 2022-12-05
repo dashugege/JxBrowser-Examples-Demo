@@ -29,31 +29,53 @@ import com.teamdev.jxbrowser.examples.seo.net.ArrayIpJsonBean.DataDTO.IDataDTO;
 import com.teamdev.jxbrowser.examples.seo.net.IP;
 import com.teamdev.jxbrowser.examples.seo.net.IpArrayListener;
 import com.teamdev.jxbrowser.examples.seo.net.IpListener;
+import com.teamdev.jxbrowser.examples.seo.utisl.IpBean;
+import com.teamdev.jxbrowser.examples.seo.utisl.IpLists;
+import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
+import com.teamdev.jxbrowser.examples.seo.utisl.SearchKeyWords;
 import java.util.List;
 
 public class TestMain {
 
-    public static String search_keyword = "json在线格式";
-    public static String url = "https://www.baidu.com";
 
     public static void main(String[]args){
-        // 单ip
-//
-        newBrowser();
 
+//        newLocalBrowser();
 
+        getReemoteIp();
     }
 
 
-    public static void newBrowser(){
+
+
+    public static void getReemoteIp(){
         ImplementSeoProcess seoProcess = new ImplementSeoProcess();
-        seoProcess.getSingleIp(new ExecutionCompletedListener() {
-            @Override
-            public void completed() {
-                newBrowser();
-            }
-        });
+        String searchKeyword =  SearchKeyWords.getKeyWords();
+        seoProcess.getSingleIp(searchKeyword,
+                new ExecutionCompletedListener() {
+                    @Override
+                    public void completed(String ip, String port, String searchkeyword) {
+                        getReemoteIp();
+                    }
+                });
     }
+
+
+    public static void newLocalBrowser(){
+        ImplementSeoProcess seoProcess = new ImplementSeoProcess();
+        IpBean ipBean = IpLists.getIpBean();
+        String searchKeyword =  SearchKeyWords.getKeyWords();
+        PrintUtils.print(ipBean.ip + "  " + ipBean.port);
+        seoProcess.getLocalIp(ipBean.ip, ipBean.port, searchKeyword,
+                new ExecutionCompletedListener() {
+                    @Override
+                    public void completed(String ip, String port, String searchkeyword) {
+                            newLocalBrowser();
+                    }
+                });
+    }
+
+
 
 
 

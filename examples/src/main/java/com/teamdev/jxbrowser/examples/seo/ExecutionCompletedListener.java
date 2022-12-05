@@ -22,6 +22,6 @@ package com.teamdev.jxbrowser.examples.seo;
 
 public interface ExecutionCompletedListener {
 
-    public void completed();
+    public void completed(String ip,String port,String searchkeyword);
 
 }

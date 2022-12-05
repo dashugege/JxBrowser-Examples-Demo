@@ -22,23 +22,25 @@ package com.teamdev.jxbrowser.examples.seo.net;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.teamdev.jxbrowser.examples.seo.net.SingleJsonBean.DataDTO;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class IP {
-
+//    https://ip.jiangxianli.com/api/proxy_ip
     public void getIp(IpListener listener) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://ip.jiangxianli.com/api/proxy_ip")
+                .url("https://api.xiaoxiangdaili.com/ip/get?appKey=914769352468090880&appSecret=Ot69ry09&cnt=1&wt=json&method=http&city=&province=")
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String result = response.body().string();
             Gson gson = new Gson();
             SingleJsonBean jsonBean = gson.fromJson(result, SingleJsonBean.class);
-            if(jsonBean != null&& jsonBean.getCode() == 0 && jsonBean.getData().getIp().length()>0 && jsonBean.getData().getPort().length()>0){
-                listener.success(jsonBean.getData().getIp(),jsonBean.getData().getPort());
+            if(jsonBean != null&& jsonBean.getCode() == 200){
+                DataDTO dataDTO = jsonBean.getData().get(0);
+                listener.success(dataDTO.getIp(),dataDTO.getPort());
             }else {
                 listener.error();
             }

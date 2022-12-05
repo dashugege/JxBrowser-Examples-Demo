@@ -20,11 +20,16 @@
 
 package com.teamdev.jxbrowser.examples.seo.net;
 
+import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
 public class SingleJsonBean {
 
+
     private Integer code;
+    private Boolean success;
+    private List<DataDTO> data;
     private String msg;
-    private DataDTO data;
 
     public Integer getCode() {
         return code;
@@ -32,6 +37,22 @@ public class SingleJsonBean {
 
     public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public List<DataDTO> getData() {
+        return data;
+    }
+
+    public void setData(List<DataDTO> data) {
+        this.data = data;
     }
 
     public String getMsg() {
@@ -42,36 +63,13 @@ public class SingleJsonBean {
         this.msg = msg;
     }
 
-    public DataDTO getData() {
-        return data;
-    }
-
-    public void setData(DataDTO data) {
-        this.data = data;
-    }
-
     public static class DataDTO {
 
-        private String uniqueId;
         private String ip;
         private String port;
-        private String country;
-        private String ipAddress;
-        private Integer anonymity;
-        private String protocol;
-        private String isp;
-        private Integer speed;
-        private String validatedAt;
-        private String createdAt;
-        private String updatedAt;
-
-        public String getUniqueId() {
-            return uniqueId;
-        }
-
-        public void setUniqueId(String uniqueId) {
-            this.uniqueId = uniqueId;
-        }
+        private Object realIp;
+        private String startTime;
+        private Integer during;
 
         public String getIp() {
             return ip;
@@ -89,76 +87,28 @@ public class SingleJsonBean {
             this.port = port;
         }
 
-        public String getCountry() {
-            return country;
+        public Object getRealIp() {
+            return realIp;
         }
 
-        public void setCountry(String country) {
-            this.country = country;
+        public void setRealIp(Object realIp) {
+            this.realIp = realIp;
         }
 
-        public String getIpAddress() {
-            return ipAddress;
+        public String getStartTime() {
+            return startTime;
         }
 
-        public void setIpAddress(String ipAddress) {
-            this.ipAddress = ipAddress;
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
         }
 
-        public Integer getAnonymity() {
-            return anonymity;
+        public Integer getDuring() {
+            return during;
         }
 
-        public void setAnonymity(Integer anonymity) {
-            this.anonymity = anonymity;
-        }
-
-        public String getProtocol() {
-            return protocol;
-        }
-
-        public void setProtocol(String protocol) {
-            this.protocol = protocol;
-        }
-
-        public String getIsp() {
-            return isp;
-        }
-
-        public void setIsp(String isp) {
-            this.isp = isp;
-        }
-
-        public Integer getSpeed() {
-            return speed;
-        }
-
-        public void setSpeed(Integer speed) {
-            this.speed = speed;
-        }
-
-        public String getValidatedAt() {
-            return validatedAt;
-        }
-
-        public void setValidatedAt(String validatedAt) {
-            this.validatedAt = validatedAt;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
+        public void setDuring(Integer during) {
+            this.during = during;
         }
     }
 }

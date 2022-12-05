@@ -49,6 +49,7 @@ public class Main {
         flag = 1;
 
         Engine engine = Engine.newInstance(EngineOptions.newBuilder(OFF_SCREEN)
+                        .enableIncognito()
                 .userAgent(UA.getUa(1))
                 .build());
 
