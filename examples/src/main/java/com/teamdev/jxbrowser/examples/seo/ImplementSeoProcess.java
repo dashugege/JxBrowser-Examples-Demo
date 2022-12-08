@@ -31,6 +31,8 @@ import com.teamdev.jxbrowser.examples.seo.net.ArrayIpJsonBean.DataDTO.IDataDTO;
 import com.teamdev.jxbrowser.examples.seo.net.IP;
 import com.teamdev.jxbrowser.examples.seo.net.IpArrayListener;
 import com.teamdev.jxbrowser.examples.seo.net.IpListener;
+import com.teamdev.jxbrowser.examples.seo.utisl.DelayUtils;
+import com.teamdev.jxbrowser.examples.seo.utisl.DelayUtils.ICallBack;
 import com.teamdev.jxbrowser.examples.seo.utisl.PrintUtils;
 import com.teamdev.jxbrowser.examples.seo.utisl.TimeUtils;
 import com.teamdev.jxbrowser.frame.Frame;
@@ -132,25 +134,30 @@ public class ImplementSeoProcess {
                 firstName.putAttribute("value", iBrowser.searchKeyWords));
         // 模拟点击搜索按钮
         try {
-            Thread.sleep(TimeUtils.getRandomTime(true));
+            DelayUtils.delay(TimeUtils.getRandomTime(true), new ICallBack() {
+                @Override
+                public void call() {
+                    PrintUtils.print(" 点击搜索按钮 ");
+                    element.findElementById("su").ifPresent(item -> {
+                        if (iBrowser.firstClick) {
+                            return;
+                        }
+                        iBrowser.firstClick = true;
+                        DelayUtils.delay(TimeUtils.getRandomTime(true), new ICallBack() {
+                            @Override
+                            public void call() {
+                                iBrowser.setFlag(1);
+                                item.click();
+                            }
+                        });
+                    });
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        PrintUtils.print(" 点击搜索按钮 ");
-        element.findElementById("su").ifPresent(item -> {
-            if (iBrowser.firstClick) {
-                return;
-            }
-            iBrowser.firstClick = true;
-            try {
-                Thread.sleep(TimeUtils.getRandomTime(true));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }finally {
-                iBrowser.setFlag(1);
-                item.click();
-            }
-        });
+
+
     }
 
 
