@@ -118,7 +118,7 @@ public class ImplementSeoProcess {
                                 firstStep(element,flag);
                             }
                             if(flag == 1 ){
-                                secondStep(element);
+                                test(element);
                             }
                     }
                 });
@@ -149,6 +149,19 @@ public class ImplementSeoProcess {
             }finally {
                 iBrowser.setFlag(1);
                 item.click();
+            }
+        });
+    }
+
+
+    public void test(Element element){
+        iBrowser.browser.devTools().show();
+        List<Element> elementList =  element.findElementsByClassName( "c-title t t tts-title");
+        element.findElementsByTagName("a").forEach(hrefItem ->{
+            if(hrefItem.textContent().contains("在线JSON校验")){
+                hrefItem.attributeNodes().forEach(attribute -> {
+                    PrintUtils.print(attribute.nodeName() + " " + attribute.nodeValue());
+                });
             }
         });
     }

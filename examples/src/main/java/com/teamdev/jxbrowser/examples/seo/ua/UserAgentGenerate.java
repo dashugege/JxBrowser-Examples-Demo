@@ -36,7 +36,7 @@ public class UserAgentGenerate {
             ua.append("("+OSVersion.macOsVersion.get(new Random().nextInt(OSVersion.macOsVersion.size()))+")");
         }
         ua.append(" AppleWebKit/537.36 (KHTML, like Gecko) ");
-        ua.append("Chrome/"+BrowserTypeVersion.chromeUaList.get(new Random().nextInt(BrowserTypeVersion.chromeUaList.size()))+" Safari/537.36");
+        ua.append("Version/"+BrowserTypeVersion.chromeUaList.get(new Random().nextInt(BrowserTypeVersion.chromeUaList.size()))+" Safari/537.36");
         return ua.toString();
     }
 

@@ -20,6 +20,7 @@
 
 package com.teamdev.jxbrowser.examples.seo.engine;
 
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
 
 import com.teamdev.jxbrowser.browser.Browser;
@@ -28,6 +29,7 @@ import com.teamdev.jxbrowser.browser.callback.CreatePopupCallback.Response;
 import com.teamdev.jxbrowser.dom.Document;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.engine.Language;
 import com.teamdev.jxbrowser.examples.seo.ua.UserAgentGenerate;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution;
 import com.teamdev.jxbrowser.examples.seo.utisl.EnglishResolution.WidthHeiht;
@@ -58,7 +60,8 @@ public class IBrowser {
     public String ip;
     public String port;
     public String searchKeyWords = "";
-    public static String targetUrl = "http://www.baidu.com";
+    public static String targetUrl = "https://www.baidu.com";
+//    public static String targetUrl = "http://www.2dyt.com";
 
 
     public synchronized Browser getBrowser( ) {
@@ -66,6 +69,8 @@ public class IBrowser {
         PrintUtils.print("UA: " + ua);
         engine = Engine.newInstance(EngineOptions.newBuilder(OFF_SCREEN)
                 .userAgent(ua)
+                        .enableIncognito()
+                .language(Language.CHINESE)
                 .build());
         browser = engine.newBrowser();
         return browser;
@@ -80,7 +85,6 @@ public class IBrowser {
             JFrame frame = new JFrame("seo browser");
             frame.getContentPane().add(view, BorderLayout.CENTER);
             frame.setSize(widthHeiht.getWidth(), widthHeiht.getHeight());
-            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
 
